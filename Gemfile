@@ -18,7 +18,7 @@ gem 'bootstrap-sass'
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry-rails'
-  gem 'rspec-rails', '~> 3.8'
+  gem 'rspec-rails', '~> 5.0.0'
   gem 'factory_bot_rails'
   gem 'rexml'
 end
@@ -34,7 +34,6 @@ end
 
 group :test do
   gem 'capybara', '>= 2.15'
-  gem 'selenium-webdriver'
   gem 'webdrivers'
 end
 
