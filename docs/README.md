@@ -3,4 +3,4 @@
 | id          |        | id              |        |
 | user_id     |        | name            | string |
 | name        | string | email           | string |
-| description | text   | password_digest | string |
+| description | text   | password_digest | string | ß
