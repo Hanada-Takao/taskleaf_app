@@ -1,6 +1,10 @@
 require 'rails_helper'
+
 RSpec.describe 'タスク管理機能', type: :system do
-  let!(:task_a) { FactoryBot.create(:task, name: '最初のタスク') }
+  let!(:task_a) { FactoryBot.create(:task) }
+  let!(:task_b) { FactoryBot.create(:task_2) }
+  let!(:task_c) { FactoryBot.create(:task_3) }
+  let!(:task_d) { FactoryBot.create(:task_4) }
 
   describe '新規作成機能' do
     before do
@@ -18,18 +22,21 @@ RSpec.describe 'タスク管理機能', type: :system do
   end
 
   describe '一覧表示機能' do
+    end
     context '一覧画面に遷移した場合' do
       it '作成済みのタスク一覧が表示される' do
-        # タスク一覧ページに遷移
         visit tasks_path
-        # タスク一覧ページに遷移できているかを確認
         current_path
-        # タスクがデータベースに作成されているかを確認
         Task.count
-        # 表示するHTMLにタスク情報が入っているかを確認
         page.html
-        expect(page).to have_content '最初のタスク'
+        expect(page).to have_content 'Factoryで作ったデフォルトのname１'
       end
+    end
+    context 'タスクが作成日時の降順に並んでいる場合' do
+      it '新しいタスクが一番上に表示される' do
+        visit tasks_path
+        task_test = all('td').first
+        expect(task_test).to have_content 'Factoryで作ったデフォルトのname４'
     end
   end
 
@@ -39,7 +46,7 @@ RSpec.describe 'タスク管理機能', type: :system do
     end
     context '任意のタスク詳細画面に遷移した場合' do
       it '該当タスクの内容が表示される' do
-        expect(page).to have_content '最初のタスク'
+        expect(page).to have_content 'Factoryで作ったデフォルトのname１'
       end
     end
   end
