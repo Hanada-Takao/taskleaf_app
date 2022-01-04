@@ -10,6 +10,6 @@ class Task < ApplicationRecord
   end
 
   def self.lastest(number)
-    order(created_at: :desc).limit(number)
+    order(created_at: :desc).limit(10)
   end
 end
