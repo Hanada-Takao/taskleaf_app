@@ -3,6 +3,8 @@ class Task < ApplicationRecord
   validates :description, presence: true
   validate :varidate_name_not_including_comma
 
+  scope :recent, -> { order(created_at: :desc)}
+
   private
 
   def varidate_name_not_including_comma
@@ -10,6 +12,6 @@ class Task < ApplicationRecord
   end
 
   def self.lastest(number)
-    order(created_at: :desc).limit(10)
+    order(created_at: :desc).limit(number)
   end
 end
