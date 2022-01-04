@@ -7,6 +7,7 @@
 | description | text   | password_digest | string | 
 
 Herokuへのデプロイ手順
+
 $ rails assets:precompile RAILS_ENV=production
 
 $ heroku login
