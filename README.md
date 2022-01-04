@@ -20,5 +20,19 @@ Things you may want to cover:
 * Services (job queues, cache servers, search engines, etc.)
 
 * Deployment instructions
+Herokuへのデプロイ手順
+$ rails assets:precompile RAILS_ENV=production
 
-* ...
+$ heroku login
+
+$ git remote -v
+
+$ git status
+
+$ git add .
+
+$ git commit -m "任意のコメント"
+
+$ git push heroku 作業ブランチ名:master
+
+$ heroku run rails db:migrate
