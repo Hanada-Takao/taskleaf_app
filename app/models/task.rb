@@ -8,4 +8,8 @@ class Task < ApplicationRecord
   def varidate_name_not_including_comma
     errors.add(:name, 'にコンマを含めることはできません') if name&.include?(',')
   end
+
+  def self.lastest(number)
+    order(created_at: :desc).limit(number)
+  end
 end
