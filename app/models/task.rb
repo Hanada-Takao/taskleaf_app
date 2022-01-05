@@ -6,6 +6,8 @@ class Task < ApplicationRecord
 
   scope :recent, -> { order(created_at: :desc)}
 
+  enum status:{未着手:1, 着手:2, 完了:3}
+
   private
 
   def varidate_name_not_including_comma
