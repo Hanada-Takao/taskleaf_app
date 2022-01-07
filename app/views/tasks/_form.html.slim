@@ -14,7 +14,9 @@
         = f.label :deadline
         = f.datetime_select :deadline, discard_hour: :true, discard_minute: :true, class: 'form-control'
     .form-group
-        =f.label :status
-        =f.select :status, Task.statuses.keys, {prompt: "選択してください"}, class: "status-select"
-
+        = f.label :status
+        = f.select :status, options_for_select(Task.statuses), {prompt: "選択してください"}, class: "status-select"
+    .form-group
+        = f.label :priority
+        = f.select :priority, options_for_select(Task.priorities), {prompt: "選択してください"}, class: "priority-select"
     = f.submit nil, class: 'btn btn-primary'
