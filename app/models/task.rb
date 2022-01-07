@@ -2,6 +2,8 @@ class Task < ApplicationRecord
   validates :name, presence: true, length: { maximum: 30 }
   validates :description, presence: true
   validates :deadline, presence: true
+  validates :status, presence: true
+  validates :priority, presence: true
   validate :varidate_name_not_including_comma
 
   scope :recent, -> { order(created_at: :desc)}
