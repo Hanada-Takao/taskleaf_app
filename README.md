@@ -1,26 +1,13 @@
-# README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+| tasks       |        | User            |        |
+| ----------- | ------ | --------------- | ------ |
+| id          |        | id              |        |
+| user_id     |        | name            | string |
+| name        | string | email           | string |
+| description | text   | password_digest | string | 
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
 Herokuへのデプロイ手順
+
 $ rails assets:precompile RAILS_ENV=production
 
 $ heroku login
@@ -36,3 +23,6 @@ $ git commit -m "任意のコメント"
 $ git push heroku 作業ブランチ名:master
 
 $ heroku run rails db:migrate
+
+Gemのバージョン　2.2.21
+
