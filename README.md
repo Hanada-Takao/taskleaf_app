@@ -25,3 +25,4 @@ $ git push heroku 作業ブランチ名:master
 $ heroku run rails db:migrate
 
 Gemのバージョン　2.2.21
+
