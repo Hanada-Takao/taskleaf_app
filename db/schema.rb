@@ -4,8 +4,15 @@
 #
 # This file is the source Rails uses to define your schema when running `rails
 # db:schema:load`. When creating a new database, `rails db:schema:load` tends to
-ActiveRecord::Schema.define(version: 2022_01_06_090746) do
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
+#
+# It's strongly recommended that you check this file into your version control system.
 
+ActiveRecord::Schema.define(version: 2022_01_11_130323) do
+
+  # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "tasks", force: :cascade do |t|
@@ -16,6 +23,15 @@ ActiveRecord::Schema.define(version: 2022_01_06_090746) do
     t.datetime "deadline"
     t.integer "status"
     t.integer "priority"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "password_digest", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
 end
