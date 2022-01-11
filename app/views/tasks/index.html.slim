@@ -3,7 +3,6 @@ h1 タスク一覧
     .from-group.row
     = f.label :name, "Name"
     = f.text_field :name, id: 'search_name'
-    .from-group.row
     = f.label :status, "status"
     = f.select :status, Task.statuses, {include_blank: '選択してください', selected: ''},  { id: 'search_status'}
     = submit_tag '検索', class: "button"
