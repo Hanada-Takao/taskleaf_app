@@ -42,7 +42,6 @@ RSpec.describe 'タスク管理機能', type: :system do
         task_test = all('td')
         expect(task_test[0]).to have_content 'Factoryで作ったデフォルトのname３'
     end
-
     context 'タスクが終了期限の降順に並んでいる場合' do
       it '終了期限が早いタスクが一番上に表示される' do
         visit tasks_path
@@ -60,6 +59,46 @@ RSpec.describe 'タスク管理機能', type: :system do
     context '任意のタスク詳細画面に遷移した場合' do
       it '該当タスクの内容が表示される' do
         expect(page).to have_content 'Factoryで作ったデフォルトのname１'
+      end
+    end
+  end
+
+  describe '検索機能' do
+    # before do
+    #   # 必要に応じて、テストデータの内容を変更しても構わない
+    # end
+
+    context 'タイトルで曖昧検索をした場合' do
+      it "検索キーワードを含むタスクで絞り込まれる" do
+        visit tasks_path
+        # タスクの検索欄に検索ワードを入力する（例: task）
+        fill_in 'search_name', with: 'name１'
+        # 検索ボタンを押す
+        click_on '検索'
+        expect(page).to have_content 'name１'
+      end
+    end
+
+    context 'ステータス検索をした場合' do
+      it "ステータスに完全一致するタスクが絞り込まれる" do
+        visit tasks_path
+        # ここに実装する
+        select '着手', from: 'search_status'
+        # プルダウンを選択する「select」について調べてみる
+        click_on '検索'
+        expect(page).to have_content '着手'
+      end
+    end
+
+    context 'タイトルのあいまい検索とステータス検索をした場合' do
+      it "検索キーワードをタイトルに含み、かつステータスに完全一致するタスクに絞り込まれる" do
+        visit tasks_path
+        # ここに実装する
+        fill_in 'search_name', with: 'name３'
+        select '完了', from: 'search_status'
+        click_on '検索'
+        expect(page).to have_content 'name３'
+        expect(page).to have_content '完了'
       end
     end
   end
