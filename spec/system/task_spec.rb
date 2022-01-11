@@ -1,16 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe 'タスク管理機能', type: :system do
-  let!(:task_a) { FactoryBot.create(:task) }
+  let!(:task_a) { FactoryBot.create(:task_1) }
   let!(:task_b) { FactoryBot.create(:task_2) }
   let!(:task_c) { FactoryBot.create(:task_3) }
-  let!(:task_d) { FactoryBot.create(:task_4) }
 
   describe '新規作成機能' do
     before do
       visit new_task_path
       fill_in 'task_name',	with: '名称'
       fill_in 'task_description', with: '詳細'
+      select "2022", from: "task[deadline(1i)]"
+      select "1月", from: "task[deadline(2i)]"
+      select "7", from: "task[deadline(3i)]"
+      select '着手', from: "task[status]"
+      select '中', from: "task[priority]"
       click_button '登録する'
     end
     context 'タスクを新規作成した場合' do
@@ -35,8 +39,17 @@ RSpec.describe 'タスク管理機能', type: :system do
     context 'タスクが作成日時の降順に並んでいる場合' do
       it '新しいタスクが一番上に表示される' do
         visit tasks_path
-        task_test = Task.recent.first
-        expect(page).to have_content 'Factoryで作ったデフォルトのname４'
+        task_test = all('td')
+        expect(task_test[0]).to have_content 'Factoryで作ったデフォルトのname３'
+    end
+
+    context 'タスクが終了期限の降順に並んでいる場合' do
+      it '終了期限が早いタスクが一番上に表示される' do
+        visit tasks_path
+        click_on '終了期限でソートする'
+        task_test = all('td')
+        expect(task_test[0]).to have_content 'Factoryで作ったデフォルトのname２'
+      end
     end
   end
 

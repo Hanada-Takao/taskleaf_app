@@ -9,8 +9,8 @@ class Task < ApplicationRecord
   scope :recent, -> { order(created_at: :desc)}
   scope :priority_sorted, -> { order(priority: :desc) }
 
-  enum status:{未着手:1, 着手:2, 完了:3}
-  enum priority:{高:1, 中:2, 低:3}
+  enum status:{未着手:0, 着手:1, 完了:2}
+  enum priority:{高:0, 中:1, 低:2}
 
   private
 
