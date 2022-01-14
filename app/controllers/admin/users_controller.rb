@@ -3,14 +3,19 @@ class Admin::UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
+    if check_admin
     @users = User.all
+    @tasks = Task.all.includes(:user)
+    else
+      redirect_to tasks_path, notice: "管理者以外はアクセスできません。"
+    end
   end
 
   def show
-    if current_user?
+    if check_admin || current_user?
       render :show
     else
-      redirect_to tasks_path, notice: "自分以外のユーザマイページにはアクセス出来ません。"
+      redirect_to tasks_path, notice: "自分以外のユーザマイページにはアクセスできません。"
     end
   end
 
