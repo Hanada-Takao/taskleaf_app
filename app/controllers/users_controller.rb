@@ -27,10 +27,10 @@ class UsersController < ApplicationController
   end
 
   def edit
-    # if current_user?
-    # else
-    #   redirect_to tasks_path, notice: "自分以外の編集はできません。"
-    # end
+    if current_user?
+    else
+      redirect_to tasks_path, notice: "自分以外の編集はできません。"
+    end
   end
 
   def create

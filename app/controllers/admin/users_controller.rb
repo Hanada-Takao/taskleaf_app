@@ -37,13 +37,16 @@ class Admin::UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to admin_user_path(@user), notice: "ユーザ「#{@user.name}」を更新しました。"
     else
-      render :new
+      redirect_to admin_users_path, notice: "ユーザ「#{@user.name}」を更新できません。"
     end
   end
 
   def destroy
-    @user.destroy
-    redirect_to admin_users_url, notice: "ユーザ「#{@user.name}」を削除しました。"
+    if @user.destroy
+      redirect_to admin_users_url, notice: "ユーザ「#{@user.name}」を削除しました。"
+    else
+      redirect_to admin_users_path, notice: "最後の管理者は削除できません。"
+    end
   end
 
   private
@@ -57,7 +60,9 @@ class Admin::UsersController < ApplicationController
   end
 
   def require_admin
-    redirect_to root_path unless current_user.admin?
+    unless current_user.admin?
+      redirect_to root_path, notice: "管理者以外はアクセスできません"
+    end
   end
 end
 
