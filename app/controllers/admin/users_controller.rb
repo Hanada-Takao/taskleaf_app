@@ -7,10 +7,20 @@ class Admin::UsersController < ApplicationController
   end
 
   def show
+    if current_user?
+      render :show
+    else
+      redirect_to tasks_path, notice: "自分以外のユーザマイページにはアクセス出来ません。"
+    end
   end
 
   def new
     @user = User.new
+    if check_admin
+      render :new
+    else logged_in?
+      redirect_to tasks_path
+    end
   end
 
   def edit
@@ -18,8 +28,8 @@ class Admin::UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-
     if @user.save
+      log_in
       redirect_to admin_user_path(@user), notice: "ユーザ「#{@user.name}」を登録しました。"
     else
       render :new

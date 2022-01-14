@@ -5,9 +5,9 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by(email: session_params[:email])
-
+    user = User.find_by(email: session_params[:email].downcase)
     if user&.authenticate(session_params[:password])
+      # log_in user
       session[:user_id] = user.id
       redirect_to root_path, notice: 'ログインしました。'
     else
@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    reset_session
+    log_out if logged_in?
     redirect_to root_path, notice: 'ログアウトしました。'
   end
 

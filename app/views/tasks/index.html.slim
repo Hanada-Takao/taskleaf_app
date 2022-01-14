@@ -15,6 +15,7 @@ h1 タスク一覧
 table.table.table-hover
     thead.thesd-default
         tr
+            th = Task.human_attribute_name(:user)
             th = Task.human_attribute_name(:name)
             th = Task.human_attribute_name(:created_at)
             th = Task.human_attribute_name(:deadline)
@@ -24,6 +25,7 @@ table.table.table-hover
     tbody
         - @tasks.each do |task|
             tr
+                td = task.user.name
                 td = link_to task.name, task
                 td = task.created_at
                 td = task.deadline
