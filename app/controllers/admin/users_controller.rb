@@ -1,7 +1,7 @@
 class Admin::UsersController < ApplicationController
   skip_before_action :login_required, only: [:new, :create]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :require_admin
+  before_action :require_admin, only: [:index, :show, :new, :edit, :update, :destroy]
 
   def index
     @users = User.all
@@ -14,9 +14,6 @@ class Admin::UsersController < ApplicationController
   def new
     @user = User.new
     if check_admin
-
-    else logged_in?
-      redirect_to tasks_path
     end
   end
 
@@ -60,7 +57,7 @@ class Admin::UsersController < ApplicationController
   end
 
   def require_admin
-    unless current_user.admin?
+    unless current_user&.admin?
       redirect_to root_path, notice: "管理者以外はアクセスできません"
     end
   end
