@@ -6,6 +6,8 @@ class Task < ApplicationRecord
   validates :priority, presence: true
   validate :varidate_name_not_including_comma
 
+  belongs_to :user
+
   scope :recent, -> { order(created_at: :desc)}
   scope :priority_sorted, -> { order(priority: :desc) }
 

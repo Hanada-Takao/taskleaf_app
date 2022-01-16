@@ -1,12 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe 'タスク管理機能', type: :system do
-  let!(:task_a) { FactoryBot.create(:task_1) }
-  let!(:task_b) { FactoryBot.create(:task_2) }
-  let!(:task_c) { FactoryBot.create(:task_3) }
+  let!(:user_a) { create(:user_admin) }
+  let!(:task_a) { create(:task_1) }
+  let!(:task_b) { create(:task_2) }
+  let!(:task_c) { create(:task_3) }
 
   describe '新規作成機能' do
     before do
+      admin_login
       visit new_task_path
       fill_in 'task_name',	with: '名称'
       fill_in 'task_description', with: '詳細'
@@ -29,6 +31,7 @@ RSpec.describe 'タスク管理機能', type: :system do
     end
     context '一覧画面に遷移した場合' do
       it '作成済みのタスク一覧が表示される' do
+        admin_login
         visit tasks_path
         current_path
         Task.count
@@ -38,22 +41,25 @@ RSpec.describe 'タスク管理機能', type: :system do
     end
     context 'タスクが作成日時の降順に並んでいる場合' do
       it '新しいタスクが一番上に表示される' do
+        admin_login
         visit tasks_path
         task_test = all('td')
-        expect(task_test[0]).to have_content 'Factoryで作ったデフォルトのname３'
+        expect(task_test[0]).to have_content 'Factoryで作ったUserAdmin'
     end
     context 'タスクが終了期限の降順に並んでいる場合' do
       it '終了期限が早いタスクが一番上に表示される' do
+        admin_login
         visit tasks_path
         click_on '終了期限でソートする'
         task_test = all('td')
-        expect(task_test[0]).to have_content 'Factoryで作ったデフォルトのname２'
+        expect(task_test[0]).to have_content 'Factoryで作ったUserAdmin'
       end
     end
   end
 
   describe '詳細表示機能' do
     before do
+      admin_login
       visit task_path(task_a)
     end
     context '任意のタスク詳細画面に遷移した場合' do
@@ -70,6 +76,7 @@ RSpec.describe 'タスク管理機能', type: :system do
 
     context 'タイトルで曖昧検索をした場合' do
       it "検索キーワードを含むタスクで絞り込まれる" do
+        admin_login
         visit tasks_path
         # タスクの検索欄に検索ワードを入力する（例: task）
         fill_in 'search_name', with: 'name１'
@@ -81,6 +88,7 @@ RSpec.describe 'タスク管理機能', type: :system do
 
     context 'ステータス検索をした場合' do
       it "ステータスに完全一致するタスクが絞り込まれる" do
+        admin_login
         visit tasks_path
         # ここに実装する
         select '着手', from: 'search_status'
@@ -92,6 +100,7 @@ RSpec.describe 'タスク管理機能', type: :system do
 
     context 'タイトルのあいまい検索とステータス検索をした場合' do
       it "検索キーワードをタイトルに含み、かつステータスに完全一致するタスクに絞り込まれる" do
+        admin_login
         visit tasks_path
         # ここに実装する
         fill_in 'search_name', with: 'name３'
