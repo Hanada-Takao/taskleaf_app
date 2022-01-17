@@ -39,8 +39,24 @@ class TasksController < ApplicationController
   end
 
   def update
-    @task.update!(task_params)
-    redirect_to tasks_url, notice: "タスク「#{task.name}」を更新しました。"
+    if @task.update(task_params)
+      if params[:task][:tag_ids].present?
+        @task.task_tags.each do |task_tag|
+          task_tag.destroy if task_tag.task_id == @task.id
+        end
+        params[:task][:tag_ids].each do |tag_id|
+          TaskTag.create(task_id: @task.id, tag_id: tag_id)
+        end
+      else
+        @task.task_tags.each do |task_tag|
+          task_tag.destroy if task_tag.task_id == @task.id
+        end
+      end
+    else
+      @task_tag_ids = @task.tags_attached_to_task.pluck(:id)
+      render "edit"
+    end
+    redirect_to task_path(@task.id), notice: "タスク「#{@task.name}」を更新しました。"
   end
 
   def destroy
@@ -51,7 +67,7 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:name, :description, :deadline, :status, :priority)
+    params.require(:task).permit(:name, :description, :deadline, :status, :priority, { tag_ids: [] })
     .merge(status: params[:task][:status].to_i).merge(priority: params[:task][:priority].to_i)
   end
 

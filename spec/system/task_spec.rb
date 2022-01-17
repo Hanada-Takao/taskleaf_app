@@ -44,7 +44,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         admin_login
         visit tasks_path
         task_test = all('td')
-        expect(task_test[0]).to have_content 'Factoryで作ったUserAdmin'
+        expect(task_test[1]).to have_content 'Factoryで作ったデフォルトのname３'
     end
     context 'タスクが終了期限の降順に並んでいる場合' do
       it '終了期限が早いタスクが一番上に表示される' do
@@ -52,7 +52,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         visit tasks_path
         click_on '終了期限でソートする'
         task_test = all('td')
-        expect(task_test[0]).to have_content 'Factoryで作ったUserAdmin'
+        expect(task_test[1]).to have_content 'Factoryで作ったデフォルトのname１'
       end
     end
   end

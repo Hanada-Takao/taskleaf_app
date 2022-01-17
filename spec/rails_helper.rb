@@ -44,6 +44,4 @@ RSpec.configure do |config|
   config.include LoginSupport
   # FactoryBotの省略
   config.include FactoryBot::Syntax::Methods
-  # module読み込み
-  # config.include LoginModule
 end

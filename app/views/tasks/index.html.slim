@@ -1,38 +1,40 @@
 h1 タスク一覧
 = form_with(model: @task, scope: :search, url: search_tasks_path, method: :get, local: true) do |f|
-    .from-group.row
-    = f.label :name, "Name"
-    = f.text_field :name, id: 'search_name'
-    = f.label :status, "status"
-    = f.select :status, Task.statuses, {include_blank: '選択してください', selected: ''},  { id: 'search_status'}
-    = submit_tag '検索', class: "button"
-    .from-group.row
-        = link_to '新規登録', new_task_path, class: 'btn btn-primary'
-    .from-group.row
-        = link_to '終了期限でソートする', tasks_path(sort_expired: "true"), class: 'btn btn-danger'
-        = link_to '優先順位でソートする', tasks_path(pri_sort: "true"), class: 'btn btn-danger'
+  .from-group.row
+  = f.label :name, "Name"
+  = f.text_field :name, id: 'search_name'
+  = f.label :status, "status"
+  = f.select :status, Task.statuses, {include_blank: '選択してください', selected: ''},  { id: 'search_status'}
+  = submit_tag '検索', class: "button"
+  .from-group.row
+    = link_to '新規登録', new_task_path, class: 'btn btn-primary'
+  .from-group.row
+    = link_to '終了期限でソートする', tasks_path(sort_expired: "true"), class: 'btn btn-danger'
+    = link_to '優先順位でソートする', tasks_path(pri_sort: "true"), class: 'btn btn-danger'
 .md-3
 table.table.table-hover
-    thead.thesd-default
-        tr
-            th = Task.human_attribute_name(:user)
-            th = Task.human_attribute_name(:name)
-            th = Task.human_attribute_name(:created_at)
-            th = Task.human_attribute_name(:deadline)
-            th = Task.human_attribute_name(:status)
-            th = Task.human_attribute_name(:priority)
-            th
-    tbody
-        - @tasks.each do |task|
-            tr
-                td = task.user.name
-                td = link_to task.name, task
-                td = task.created_at
-                td = task.deadline
-                td = task.status
-                td = task.priority
-                td
-                    = link_to '詳細', task_path(task.id), class: 'btn btn-default mr-3'
-                    = link_to "編集", edit_task_path(task), class: 'btn btn-primary mr-3'
-                    = link_to "削除", task, method: :delete, remote: true, data: { confirm: "タスク「#{task.name}」を削除します。よろしいですか？"}, class: 'btn btn-danger delete'
-    = paginate @tasks
+  thead.thesd-default
+    tr
+      th = Task.human_attribute_name(:user)
+      th = Task.human_attribute_name(:name)
+      th = Task.human_attribute_name(:created_at)
+      th = Task.human_attribute_name(:deadline)
+      th = Task.human_attribute_name(:status)
+      th = Task.human_attribute_name(:priority)
+      th = Task.human_attribute_name(:tag)
+      th
+  tbody
+    - @tasks.each do |task|
+      tr
+        td = task.user.name
+        td = link_to task.name, task
+        td = task.created_at
+        td = task.deadline
+        td = task.status
+        td = task.priority
+        td = task.tags.map(&:tag_name).join(', ')
+        td
+          = link_to '詳細', task_path(task.id), class: 'btn btn-default mr-3'
+          = link_to "編集", edit_task_path(task), class: 'btn btn-primary mr-3'
+          = link_to "削除", task, method: :delete, remote: true, data: { confirm: "タスク「#{task.name}」を削除します。よろしいですか？"}, class: 'btn btn-danger delete'
+  = paginate @tasks

@@ -7,6 +7,8 @@ class Task < ApplicationRecord
   validate :varidate_name_not_including_comma
 
   belongs_to :user
+  has_many :task_tags, dependent: :destroy
+  has_many :tags, through: :task_tags
 
   scope :recent, -> { order(created_at: :desc)}
   scope :priority_sorted, -> { order(priority: :desc) }
