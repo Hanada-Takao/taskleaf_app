@@ -6,7 +6,7 @@ h1 タスク一覧
   = f.label :status, "status"
   = f.select :status, Task.statuses, {include_blank: '選択してください', selected: ''},  { id: 'search_status'}
   = f.label :tag_id, "tag"
-  = f.select :tag_id, Tag.pluck(:tag_name, :id), { include_blank: '選択してください', selected: ''}
+  = f.select :tag_id, Tag.pluck(:tag_name, :id), { include_blank: '選択してください', selected: ''},  { id: 'search_tag'}
   = submit_tag '検索', class: "button"
   .from-group.row
     = link_to '新規登録', new_task_path, class: 'btn btn-primary'

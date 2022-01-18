@@ -1,11 +1,9 @@
-# require 'rails_helper'
 FactoryBot.define do
-  factory :tag do
-    #タスクに複数のラベルをつけられる
-    #ラベルは、タスクを新規登録するときにタスクと一緒に登録できる
-    #ラベルは、タスクを編集するときにタスクと一緒に編集できる
-    #タスクの詳細画面で、そのタスクに紐づいているラベル一覧を出力できる
-    #つけたラベルで検索ができる
+  factory :tag_1, class: Tag do
+    tag_name { 'Factoryで作ったデフォルトのtag１' }
+  end
 
+  factory :tag_2, class: Tag do
+    tag_name { 'Factoryで作ったデフォルトのtag２' }
   end
 end
