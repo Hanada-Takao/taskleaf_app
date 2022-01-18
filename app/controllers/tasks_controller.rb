@@ -3,18 +3,20 @@ class TasksController < ApplicationController
   before_action :logged_in_user, only:[:edit, :update, :destroy]
 
   def index
+    @tasks = current_user.tasks.page(params[:page]).per(5).order('created_at DESC')
     if params[:sort_expired]
-      @tasks = current_user.tasks.page(params[:page]).per(5).order('deadline ASC')
+      @tasks = @tasks .page(params[:page]).per(5).order('deadline ASC')
     elsif params[:pri_sort]
-      @tasks = current_user.tasks.page(params[:page]).per(5).order('priority ASC')
+      @tasks = @tasks .page(params[:page]).per(5).order('priority ASC')
     else
-      @tasks = current_user.tasks.page(params[:page]).per(5).order('created_at DESC')
+      @tasks
     end
   end
 
   def search
     @search_params = task_search_params
-    @tasks = current_user.tasks.page(params[:page]).per(5).searchh(@search_params)
+
+    @tasks = current_user.tasks.searchh(@search_params).page(params[:page]).per(5)
       render :index
   end
 
@@ -76,6 +78,6 @@ class TasksController < ApplicationController
   end
 
   def task_search_params
-    params.fetch(:search, {}).permit(:name, :status)
+    params.fetch(:search, {}).permit(:name, :status, :tag_id)
   end
 end

@@ -15,6 +15,11 @@ class Task < ApplicationRecord
 
   enum status:{未着手:0, 着手:1, 完了:2}
   enum priority:{高:0, 中:1, 低:2}
+  scope :name_like, -> (name) { where('name LIKE ?', "%#{ name }%") if name.present? }
+  scope :status, -> (status) { where(status: status) if status.present? }
+  scope :tag_id, -> (tag_id) {
+    joins(:task_tags).where(task_tags: {tag_id: tag_id}) if tag_id.present?
+  }
 
   private
 
@@ -29,13 +34,8 @@ class Task < ApplicationRecord
   scope :searchh, -> (search_params) do
     return if search_params.blank?
 
-    name_like(search_params[:name]).status(search_params[:status])
+    name_like(search_params[:name]).status(search_params[:status]).tag_id(search_params[:tag_id])
   end
 
-  scope :name_like, -> (name) { where('name LIKE ?', "%#{ name }%") if name.present? }
-  scope :status, -> (status) { where(status: status) if status.present? }
+
 end
-
-
-
-
